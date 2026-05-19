@@ -2,11 +2,11 @@
 extern malloc
 
 section .text
-	global strlen
-	global strcpy
-	global strdup
+	global rb_strlen
+	global rb_strcpy
+	global rb_strdup
 
-strlen:
+rb_strlen:
 	push    rbp
 	mov     rbp,rsp
 	; skip unused rbx, r12-r15
@@ -27,7 +27,7 @@ strlen:
 	ret
 
 
-strcpy:
+rb_strcpy:
 	push    rbp
 	mov     rbp,rsp
 	; skip unused rbx, r12-r15
@@ -52,7 +52,7 @@ strcpy:
 	leave
 	ret
 
-strdup:
+rb_strdup:
 	push    rbp
 	mov     rbp,rsp
 	push    rbx
@@ -60,7 +60,7 @@ strdup:
 
 	; rdi = str
 	mov     rbx, rdi
-	call    strlen
+	call    rb_strlen
 	; rax = strlen
 
 	mov     rdi, rax
@@ -73,7 +73,7 @@ strdup:
 
 	mov     rdi, rax
 	mov     rsi, rbx
-	call    strcpy
+	call    rb_strcpy
 
 .strdup_error:
 

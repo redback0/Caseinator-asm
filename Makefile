@@ -3,7 +3,9 @@ DNAME := Caseinator-asm-debug
 
 FILES := \
 		main.s \
-		helpers.s
+		helpers.s \
+		to_lower.s \
+		to_upper.s
 
 SRC_DIR := src
 OBJ_DIR := obj
@@ -19,9 +21,12 @@ C_RED := \033[0;31m
 NC := \033[0m
 PREFIX := $(C_ORANGE)<$(NAME)>
 
+
 all: $(NAME)
 
 dall: $(DNAME)
+
+debug: $(DNAME)
 
 $(NAME): $(OBJ)
 	@printf "$(PREFIX) $(NC)CREATING $(NAME)\n"
@@ -29,7 +34,7 @@ $(NAME): $(OBJ)
 
 $(DNAME): $(DOBJ)
 	@printf "$(PREFIX) $(NC)CREATING $(DNAME)\n"
-	@ld -o $(DNAME) $(DOBJ) -lc
+	@ld -pie -o $(DNAME) $(DOBJ) -lc
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.s $(OBJ_DIR)
 	@printf "$(PREFIX) $(C_DCYAN)ASSEMBLING $@$(NC)\n"
