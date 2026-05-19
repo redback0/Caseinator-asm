@@ -16,6 +16,8 @@ section .text
 	extern to_lower
 	extern to_upper
 	extern to_snake
+	extern to_camel
+	extern to_pascal
 
 _start:
 	pop rax ; argc
@@ -65,7 +67,7 @@ _start:
 	mov rdi, rbx
 
 	xor rdx, rdx
-	mov ecx, 3
+	mov ecx, 5
 	div ecx
 	; rdx = rand % 2
 	; jump to call random caseinator
@@ -75,6 +77,10 @@ _start:
 	je .lower
 	cmp rdx, 2
 	je .snake
+	cmp rdx, 3
+	je .camel
+	cmp rdx, 4
+	je .pascal
 
 .upper:
 	call to_upper
@@ -86,6 +92,14 @@ _start:
 
 .snake:
 	call to_snake
+	jmp .cased
+
+.camel:
+	call to_camel
+	jmp .cased
+
+.pascal:
+	call to_pascal
 	jmp .cased
 
 .cased:

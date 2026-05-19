@@ -1,8 +1,8 @@
 section .text
-	global to_snake
+	global to_pascal
 	extern rb_isspace
 
-to_snake:
+to_pascal:
 	push rbp
 	mov rbp, rsp
 	push rbx
@@ -36,7 +36,11 @@ to_snake:
 	jne .space
 
 .not_space:
+	cmp r15, 0
 	mov r15, 0
+	jne .to_upper
+
+.to_lower:
 	cmp dil, 65 ; 'A'
 	jl .write_new
 
@@ -46,12 +50,19 @@ to_snake:
 	add dil, 32
 	jmp .write_new
 
-.space:
-	cmp r15, 0
-	mov r15, 1
-	jne .loop_cont
+.to_upper:
+	cmp dil, 97 ; 'a'
+	jl .write_new
 
-	mov dil, 95 ; '_'
+	cmp dil, 122 ; 'z'
+	jg .write_new
+
+	sub dil, 32
+	jmp .write_new
+
+.space:
+	mov r15, 1
+	jmp .loop_cont
 
 .write_new:
 	mov byte [r13], dil

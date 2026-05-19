@@ -6,7 +6,9 @@ FILES := \
 		helpers.s \
 		to_lower.s \
 		to_upper.s \
-		to_snake.s
+		to_snake.s \
+		to_camel.s \
+		to_pascal.s
 
 SRC_DIR := src
 OBJ_DIR := obj

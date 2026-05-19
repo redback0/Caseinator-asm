@@ -19,10 +19,10 @@ to_upper:
 	cmp bl, 0
 	je .loop_exit
 
-	cmp bl, 97 ; 'A'
+	cmp bl, 97 ; 'a'
 	jl .check_loop
 
-	cmp bl, 122 ; 'Z'
+	cmp bl, 122 ; 'z'
 	jg .check_loop
 
 	sub bl, 32
