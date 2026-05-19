@@ -5,6 +5,8 @@ section .text
 	global rb_strlen
 	global rb_strcpy
 	global rb_strdup
+	global rb_isspace
+
 
 rb_strlen:
 	push    rbp
@@ -52,6 +54,7 @@ rb_strcpy:
 	leave
 	ret
 
+
 rb_strdup:
 	push    rbp
 	mov     rbp,rsp
@@ -80,3 +83,28 @@ rb_strdup:
 	pop     rbx
 	leave
 	ret
+
+
+rb_isspace:
+	push    rbp
+	mov     rbp,rsp
+	; skip unused rbx, r12-15
+
+	; rdi = c
+
+	xor     rax, rax
+
+	cmp     rdi, " "
+	je      .found
+	cmp     rdi, 0x9        ; \t
+	jb      .not_found
+	cmp     rdi, 0xD        ; \r
+	ja      .not_found
+
+.found:
+	mov     rax, 0x1
+
+.not_found:
+	leave
+	ret
+

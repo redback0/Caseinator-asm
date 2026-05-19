@@ -5,7 +5,8 @@ FILES := \
 		main.s \
 		helpers.s \
 		to_lower.s \
-		to_upper.s
+		to_upper.s \
+		to_snake.s
 
 SRC_DIR := src
 OBJ_DIR := obj

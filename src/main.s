@@ -1,7 +1,7 @@
 default rel
 
 section .rodata
-nl db 10
+	nl db 10
 
 
 section .text
@@ -9,11 +9,13 @@ section .text
 	extern rb_strlen
 	extern rb_strdup
 	extern free
-	extern to_lower
-	extern to_upper
 	extern time
 	extern srand
 	extern rand
+
+	extern to_lower
+	extern to_upper
+	extern to_snake
 
 _start:
 	pop rax ; argc
@@ -26,17 +28,20 @@ _start:
 	call rb_strlen
 	; rax = strlen
 
-	mov rdi, 1
+	; print argv[1]
+	mov rdi, 1 ; stdout
 	mov rsi, [rsp + 8] ; argv[1]
-	mov rdx, rax
-	mov rax, 1
+	mov rdx, rax ; n
+	mov rax, 1 ; write
 	syscall
 
+	; print newline
 	lea rsi, [rel nl]
 	mov rdx, 1
 	mov rax, 1
 	syscall
 
+	; dup string; assume argv[1] isn't mutable
 	mov rdi, [rsp + 8]
 	call rb_strdup
 	; rax = strdup
@@ -60,24 +65,30 @@ _start:
 	mov rdi, rbx
 
 	xor rdx, rdx
-	mov ecx, 2
+	mov ecx, 3
 	div ecx
 	; rdx = rand % 2
+	; jump to call random caseinator
 	cmp rdx, 0
 	je .upper
 	cmp rdx, 1
 	je .lower
-	jmp .default
+	cmp rdx, 2
+	je .snake
 
 .upper:
 	call to_upper
-	jmp .default
+	jmp .cased
 
 .lower:
 	call to_lower
-	jmp .default
+	jmp .cased
 
-.default:
+.snake:
+	call to_snake
+	jmp .cased
+
+.cased:
 
 	; rax = rbx = cased string
 
