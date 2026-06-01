@@ -31,6 +31,10 @@ dall: $(DNAME)
 
 debug: $(DNAME)
 
+gcc:
+	@printf "$(PREFIX) $(NC)CREATING $(NAME)\n"
+	@gcc -pie -o $(NAME) $(OBJ) -nostdlib -lc
+
 $(NAME): $(OBJ)
 	@printf "$(PREFIX) $(NC)CREATING $(NAME)\n"
 	@ld -pie -o $(NAME) $(OBJ) -lc
@@ -64,4 +68,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all test clean fclean re
+.PHONY: all test clean fclean re gcc
